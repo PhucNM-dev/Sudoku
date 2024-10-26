@@ -15,10 +15,16 @@
                        class="sudoku-cell" />
             </div>
         </div>
-        <button @click="solveSudoku" class="solve-button">{{ buttonText }}</button>
+        <div class="button-container">
+            <button @click="solveSudoku" class="solve-button">{{ buttonText }}</button>
+        </div>
+        <div class="button-container">
+            <button @click="resetGrid" class="reset-button">{{ buttonReset }}</button>
+        </div>
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
 </template>
+
 <script lang="ts">
     import { defineComponent, ref, PropType } from 'vue';
     export default defineComponent({
@@ -31,6 +37,10 @@
             buttonText: {
                 type: String as PropType<string>,
                 default: 'Solve'
+            },
+            buttonReset: {
+                type: String as PropType<string>,
+                default: 'Reset'
             }
         },
         setup() {
@@ -57,9 +67,8 @@
                     //emit('error', errorMessage.value);
                 }
                 if (isSolve) {
-                    // request to server 
+                    // request to server
                     fetch('https://localhost:7152/api/sudoku', {
-                        mode: 'no-cors',
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -67,6 +76,7 @@
                         body: JSON.stringify({ sudoku: grid.value })
                     })
                         .then(response => {
+                            console.log('Status:', response.status);
                             if (!response.ok) {
                                 throw new Error('Network response was not ok');
                             }
@@ -213,6 +223,15 @@
         .solve-button:hover {
             background-color: #45a049;
         }
+
+    .reset-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #0094ff; 
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
 
     .error {
         color: red;

@@ -12,7 +12,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", policy =>
     {
-        policy.WithOrigins("http://localhost:8080/") // Add your client URL here
+        policy.WithOrigins("http://localhost:8080") // Add your client URL here
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

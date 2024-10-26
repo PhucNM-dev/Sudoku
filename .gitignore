@@ -5,3 +5,5 @@
 /SudokuSolve/obj
 /SudokuSolve/bin/Debug/net6.0
 /SudokuUI/obj/Debug
+/node_modules/.bin
+/node_modules
