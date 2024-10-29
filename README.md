@@ -49,7 +49,7 @@ Ensure you have the following installed:
 2. Run the frontend application:
 
    ```bash
-   cd Sudoku/SudokuUI
+   cd Sudoku/Sudoku-ui
    npm install
    ```
 
