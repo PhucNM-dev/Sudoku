@@ -1,6 +1,6 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <Home msg="Welcome to Your Vue.js + TypeScript App"/>
+  <Home msg="Sudoku Solver Web Application"/>
 </template>
 
 <script lang="ts">
