@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+<<<<<<< HEAD
 using System.Runtime.InteropServices;
+=======
+>>>>>>> 81c5a6e7d34ec0b5d44dc23f99b96a8a1204582a
 
 public class SudokuContext : DbContext
 {

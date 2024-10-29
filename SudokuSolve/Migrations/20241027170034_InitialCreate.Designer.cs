@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace sudokube.Migrations
 {
     [DbContext(typeof(SudokuContext))]
-    partial class SudokuContextModelSnapshot : ModelSnapshot
+    [Migration("20241027170034_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,12 +36,7 @@ namespace sudokube.Migrations
 
                     b.Property<string>("SolvedPuzzle")
                         .IsRequired()
-<<<<<<< HEAD
-                        .HasMaxLength(81)
-                        .HasColumnType("nvarchar(81)");
-=======
                         .HasColumnType("nvarchar(max)");
->>>>>>> 81c5a6e7d34ec0b5d44dc23f99b96a8a1204582a
 
                     b.HasKey("Id");
 
