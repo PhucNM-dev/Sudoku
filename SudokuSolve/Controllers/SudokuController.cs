@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -14,6 +11,13 @@ public class SudokuController : ControllerBase
     public SudokuController(SudokuContext context)
     {
         _context = context;
+    }
+
+    // Fetch data
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Sudoku>>> GetSudokus()
+    {
+        return await _context.Sudokus.ToListAsync();
     }
 
     [HttpPost]
@@ -42,11 +46,12 @@ public class SudokuController : ControllerBase
         Sudoku sudoku = new Sudoku
         {
             SolvedAt = DateTime.Now,
-            SolvedPuzzle = result//sudokuString
+            SolvedPuzzle = result
         };
         _context.Sudokus.Add(sudoku);
         await _context.SaveChangesAsync();
 
         return Ok(new { message = "Sudoku solve saved in database.", bodyRequest });
     }
+
 }
