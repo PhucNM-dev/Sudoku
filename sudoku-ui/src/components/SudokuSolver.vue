@@ -9,7 +9,6 @@
                 <input v-for="(cell, colIndex) in row"
                        :key="colIndex"
                        type="number"
-                       maxlength="1"
                        min="1"
                        max="9"
                        v-model.number="grid[rowIndex][colIndex]"
@@ -30,7 +29,7 @@
         </div>
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
         <!-- Display the data in DxDataGrid -->
-        <DxDataGrid :dataSource="sudokuData" showBorders="true" :paging="{ enabled: true, pageSize: 5 }">
+        <DxDataGrid :dataSource="sudokuData" :key="dataKey"  showBorders="true" :paging="{ enabled: true, pageSize: 5 }">
             <DxColumn dataField="id" caption="ID" />
             <DxColumn dataField="solvedPuzzle" caption="Solved Puzzle" />
             <DxColumn dataField="solvedAt" caption="Solved At" dataType="date" />
@@ -51,12 +50,15 @@
 <script lang="ts">
     import { defineComponent, ref, onMounted, PropType } from 'vue';
     import * as XLSX from 'xlsx';
-    import DxDataGrid from 'devextreme-vue/data-grid';
+    import { DxDataGrid, DxColumn, DxPager, DxPaging } from 'devextreme-vue/data-grid';
 
     export default defineComponent({
         name: 'SudokuSolver',
         components: {
-            DxDataGrid
+            DxDataGrid,
+            DxColumn,
+            DxPager,
+            DxPaging
         },
         props: {
             title: {
@@ -84,11 +86,13 @@
             const sudokuData = ref([]);
             const showSuccessPopup = ref(false);
             const successMessage = ref<string>('');
+            const dataKey = ref(0);
 
             const fetchSudokuData = async () => {
                 try {
                     const response = await fetch('https://localhost:7152/api/sudoku');
                     sudokuData.value = await response.json();
+                    dataKey.value += 1;  // Increment key to force DataGrid update
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
@@ -265,7 +269,8 @@
                 showSuccessPopup,
                 closePopup,
                 validateInput,
-                successMessage
+                successMessage,
+                dataKey
             };
         }
     });
