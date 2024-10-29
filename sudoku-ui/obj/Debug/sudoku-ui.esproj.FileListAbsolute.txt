@@ -1,0 +1,2 @@
+D:\1\Sudoku\sudoku-ui\obj\Debug\sudoku-ui.esproj.SuggestedBindingRedirects.cache
+D:\1\Sudoku\sudoku-ui\obj\Debug\sudoku-ui.esproj.CoreCompileInputs.cache

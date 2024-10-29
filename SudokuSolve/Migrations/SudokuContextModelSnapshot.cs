@@ -29,14 +29,10 @@ namespace sudokube.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("SolvedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("SolvedPuzzle")
-                        .IsRequired()
-                        .HasMaxLength(81)
-                        .HasColumnType("nvarchar(81)");
-
+                         .IsRequired()
+                         .HasMaxLength(81)
+                         .HasColumnType("nvarchar(81)");
                     b.HasKey("Id");
 
                     b.ToTable("Sudokus");
