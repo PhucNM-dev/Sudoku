@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace sudokube.Migrations
 {
     [DbContext(typeof(SudokuContext))]
-    [Migration("20241027170034_InitialCreate")]
+    [Migration("20241029122409_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,8 @@ namespace sudokube.Migrations
 
                     b.Property<string>("SolvedPuzzle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(81)
+                        .HasColumnType("nvarchar(81)");
 
                     b.HasKey("Id");
 
