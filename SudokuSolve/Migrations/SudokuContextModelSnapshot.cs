@@ -35,11 +35,15 @@ namespace sudokube.Migrations
                     b.Property<string>("SolvedPuzzle")
                         .IsRequired()
 <<<<<<< HEAD
+<<<<<<< HEAD
                         .HasMaxLength(81)
                         .HasColumnType("nvarchar(81)");
 =======
                         .HasColumnType("nvarchar(max)");
 >>>>>>> 81c5a6e7d34ec0b5d44dc23f99b96a8a1204582a
+=======
+                        .HasColumnType("nvarchar(max)");
+>>>>>>> 81c5a6e (feat: db code first, dxDataGrid DevExtreme)
 
                     b.HasKey("Id");
 
