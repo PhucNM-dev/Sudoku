@@ -29,7 +29,13 @@
         </div>
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
         <!-- Display the data in DxDataGrid -->
-        <DxDataGrid :dataSource="sudokuData" :key="dataKey"  showBorders="true" :paging="{ enabled: true, pageSize: 5 }">
+        <DxDataGrid :dataSource="sudokuData"
+                    :key="dataKey"
+                    showBorders="true"
+                    :paging="{ enabled: true, pageSize: 5 }"
+                    :selection="{ mode: 'single' }"
+                    @selectionChanged="onSelectionChanged">
+
             <DxColumn dataField="id" caption="ID" />
             <DxColumn dataField="solvedPuzzle" caption="Solved Puzzle" />
             <DxColumn dataField="solvedAt" caption="Solved At" dataType="date" />
@@ -51,6 +57,7 @@
     import { defineComponent, ref, onMounted, PropType } from 'vue';
     import * as XLSX from 'xlsx';
     import { DxDataGrid, DxColumn, DxPager, DxPaging } from 'devextreme-vue/data-grid';
+    import { SelectionChangedEvent } from 'devextreme/ui/data_grid';
 
     export default defineComponent({
         name: 'SudokuSolver',
@@ -102,6 +109,21 @@
                 fetchSudokuData();
             });
 
+            const onSelectionChanged = (e: SelectionChangedEvent) => {
+                const selectedRow = e.selectedRowsData[0];
+                console.log('Selected Row:', selectedRow); // Debug log
+                if (selectedRow) {
+                    try {
+                        const parsedData = JSON.parse(selectedRow.solvedPuzzle);
+                        console.log('Parsed Data:', parsedData); // Debug log
+                        populatedxGrid(parsedData);
+                    } catch (error) {
+                        console.error('Error parsing data:', error);
+                    }
+                }
+
+            };
+
             const importExcel = (event: Event) => {
                 const input = event.target as HTMLInputElement;
                 if (input.files?.length) {
@@ -126,6 +148,19 @@
                     }
                 }
             };
+
+            const populatedxGrid = (data: (number | null)[][]) => {
+                if (!data || data.length !== 9 || !data[0] || data[0].length !== 9) {
+                    console.error('Invalid data structure:', data);
+                    return;
+                }
+                for (let i = 0; i < 9; i++) {
+                    for (let j = 0; j < 9; j++) {
+                        grid.value[i][j] = data[i][j] || null;
+                    }
+                }
+            };
+
             const solveSudoku = () => {
                 const board = grid.value.map(row => row.slice());
                 errorMessage.value = '';
@@ -225,9 +260,9 @@
             const isSafe = (board: (number | null)[][], row: number, col: number, num: number): boolean => {
                 for (let x = 0; x < 9; x++) {
                     if (
-                        board[row][x] === num ||
-                        board[x][col] === num ||
-                        board[3 * Math.floor(row / 3) + Math.floor(x / 3)][3 * Math.floor(col / 3) + (x % 3)] === num
+                        board[row][x] === num ||// check straingt row
+                        board[x][col] === num ||// check straingt column
+                        board[3 * Math.floor(row / 3) + Math.floor(x / 3)][3 * Math.floor(col / 3) + (x % 3)] === num// check each 3x3 matrix
                     ) {
                         return false;
                     }
@@ -270,7 +305,9 @@
                 closePopup,
                 validateInput,
                 successMessage,
-                dataKey
+                dataKey,
+                populatedxGrid,// fix fix 
+                onSelectionChanged
             };
         }
     });
